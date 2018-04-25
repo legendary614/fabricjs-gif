@@ -1,0 +1,26 @@
+
+<div class="container">
+
+    <div class="row">
+        <canvas id="canvas"  width="1500" height="500"></canvas>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Select Gif Files</h3>
+            <input type="file" name="file" ng2FileSelect [uploader]="uploader" />
+        </div>
+    </div>
+    &nbsp;
+    <div class="row">
+        <div class="col-md-12">
+        <button type="button" class="btn btn-success btn-xs" (click)="uploader.uploadAll()">
+            <span class="glyphicon glyphicon-upload"></span> Convert
+        </button>
+        </div>
+    </div>
+
+</div>
+
+
+
+<router-outlet></router-outlet>

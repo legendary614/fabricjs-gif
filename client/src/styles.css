@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+.div-container {
+  
+    width:2000px;
+    height:1000px;
+    position: absolute;
+}
+.canvas-box {
+    width: 1000px;
+    margin: 0px auto;
+    padding: 15px 0px 20px 0;
+}
