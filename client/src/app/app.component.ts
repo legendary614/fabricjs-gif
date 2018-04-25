@@ -42,27 +42,31 @@ export class AppComponent implements OnInit, OnDestroy {
     this.$uns.push(this.socket.onHi.subscribe((response) => {
       console.log(response);
     }));
+
+    this.$uns.push(this.socket.onUpload.subscribe((response) => {
+      console.log(response);
+    }));
   }
 
   ngOnInit() {
 
-    this._assetService.loadScript('/assets/js/fabric.js').then(data => {
-      console.log(data); // {loaded: true, status: 'Loaded'}
-    });
-    this._assetService.loadScript('/assets/js/common.js').then(data => {
-      console.log(data); // {loaded: true, status: 'Loaded'}
-    });
+    // this._assetService.loadScript('/assets/js/fabric.js').then(data => {
+    //   console.log(data); // {loaded: true, status: 'Loaded'}
+    // });
+    // this._assetService.loadScript('/assets/js/common.js').then(data => {
+    //   console.log(data); // {loaded: true, status: 'Loaded'}
+    // });
 
-    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      window.localStorage.setItem('count', response);
-    };
+    // this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+    //   window.localStorage.setItem('count', response);
+    // };
 
-    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
-    this.uploader.onCancelItem = (item: any, response: any, status: any, header: any) => {
+    // this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+    // this.uploader.onCancelItem = (item: any, response: any, status: any, header: any) => {
 
-      console.log('ImageUpload:uploaded:', item, status, response);
+    //   console.log('ImageUpload:uploaded:', item, status, response);
 
-    };
+    // };
   }
 
   ngOnDestroy() {
@@ -92,7 +96,7 @@ export class AppComponent implements OnInit, OnDestroy {
       const file = this.props_upload.selectedFiles[i];
       // if (ext === '.jpg' || ext === '.png' || ext === '.jpeg') {
       if (!file.$error) {
-        
+        this.socket._upload(file, { guid: this.socket.fakeId() });
       }
     }
   }
