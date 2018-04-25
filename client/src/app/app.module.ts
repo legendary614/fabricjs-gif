@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { SocketService } from './shared/services/socket.service';
 import { Gif2spriteService } from './shared/services/gif2sprite.service';
 
+import { Ng5FilesModule } from '../app/shared/module/ng5-files';
 
 @NgModule({
   declarations: [
@@ -17,8 +18,8 @@ import { Gif2spriteService } from './shared/services/gif2sprite.service';
   imports: [
     BrowserModule,
     FileUploadModule,
-    AppRoutingModule
-
+    AppRoutingModule,
+    Ng5FilesModule
   ],
   providers: [
     AssetService,

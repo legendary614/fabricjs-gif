@@ -7,7 +7,9 @@
     <div class="row">
         <div class="col-md-12">
             <h3>Select Gif Files</h3>
-            <input type="file" name="file" ng2FileSelect [uploader]="uploader" />
+            <ng5-files-click (filesSelect)="filesSelect($event)">
+                <span>Click me to upload</span>
+            </ng5-files-click>
         </div>
     </div>
     &nbsp;
