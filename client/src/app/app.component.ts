@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private fileUploadConfig: Ng5FilesConfig = {
     // acceptExtensions: ['png', 'jpg', 'jpeg', 'JPEG', 'JPG'],
-    acceptExtensions: ['png', 'PNG'],
+    acceptExtensions: ['gif', 'GIF'],
     maxFilesCount: 5,
     maxFileSize: 5120000,
     totalFilesSize: 10120000
