@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { FileUploader } from 'ng2-file-upload';
 import { Gif2spriteService } from './shared/services/gif2sprite.service';
 // import { string as template } from "./app.template"
+import { Ng5FilesStatus, Ng5FilesSelected, Ng5FilesConfig, Ng5FilesService } from '../app/shared/module/ng5-files';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,18 @@ export class AppComponent implements OnInit, OnDestroy {
   private $uns: any = [];
 
   title = 'app';
+
+  private fileUploadConfig: Ng5FilesConfig = {
+    // acceptExtensions: ['png', 'jpg', 'jpeg', 'JPEG', 'JPG'],
+    acceptExtensions: ['png', 'PNG'],
+    maxFilesCount: 5,
+    maxFileSize: 5120000,
+    totalFilesSize: 10120000
+  };
+  public props_upload: any = {
+    selectedFiles: null,
+    uploadedFiles: []
+  };
 
   public uploader: FileUploader = new FileUploader({ url: 'http://192.168.1.10/generate.com/index.php' });
   constructor(private _assetService: AssetService, private socket: Gif2spriteService) {
@@ -68,5 +81,19 @@ export class AppComponent implements OnInit, OnDestroy {
   hiResponse(response) {
     // use $this instead of this
     console.log('<hi response> --> ' + response);
+  }
+
+  filesSelect(selectedFiles: Ng5FilesSelected): void {
+    if (selectedFiles.status !== Ng5FilesStatus.STATUS_SUCCESS) {
+        this.props_upload.selectedFiles = selectedFiles.status;
+    }
+    this.props_upload.selectedFiles = Array.from(selectedFiles.files);
+    for (let i = 0; i < this.props_upload.selectedFiles.length; i ++) {
+      const file = this.props_upload.selectedFiles[i];
+      // if (ext === '.jpg' || ext === '.png' || ext === '.jpeg') {
+      if (!file.$error) {
+        
+      }
+    }
   }
 }
