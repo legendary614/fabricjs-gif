@@ -6,4 +6,5 @@
 
 module.exports = {
     server:         require('./server.config'),
+    cloud:          require('./cloud.config'),
 };

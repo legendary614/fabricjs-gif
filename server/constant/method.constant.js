@@ -7,5 +7,6 @@
 module.exports = {
     hi:                         'HI',
     upload:                     'UPLOAD',
-    copy:                     'COPY',
+    download:                   'DOWNLOAD',
+    copy:                       'COPY',
 }

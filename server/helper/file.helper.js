@@ -6,6 +6,7 @@
 
 var path = require('path');
 var fs = require('fs');
+var azure = require('azure-storage');
 var readChunk = require('read-chunk');
 var mime = require('mime-types');
 var fileType = require('file-type');
@@ -21,7 +22,49 @@ var logHelper = require('./log.helper');
 var responseHelper = require('./response.helper');
 var serverConfig = require('../config/server.config');
 
+var blobService = azure.createBlobService(config.cloud.azure.AZURE_STORAGE_ACCOUNT, config.cloud.azure.AZURE_STORAGE_ACCESS_KEY);
+
+blobService.getServiceProperties(function (error, result, response) {
+    if (!error) {
+        var serviceProperties = result;
+
+        // modify the properties
+        serviceProperties['DefaultServiceVersion'] = '2017-07-29';
+
+        blobService.setServiceProperties(serviceProperties, function (error, result, response) {
+            // blobService.getServiceProperties(function (error, result, response) {
+            //     if (!error) {
+            //         // console.log(serviceProperties);
+            //     }
+            // });
+        });
+    }
+});
+
+blobService.createContainerIfNotExists('stage', { publicAccessLevel: 'blob' }, function (error, result, response) {
+});
+
 module.exports = {
+    /**
+     * 
+     * @param {*} filename 
+     * @param {*} localPath 
+     * @param {*} callback 
+     */
+    putFileToCloud(filename, localPath, callback) {
+        blobService.createBlockBlobFromLocalFile('stage', filename, localPath, (err, result, response) => {
+            if (err) {
+                responseHelper.onError('error: putFileToCloud', callback);
+                return;
+            }
+
+            let cloudPath = 'https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/' + filename;
+            responseHelper.onSuccess(callback, cloudPath);
+        })
+    },
+
+    blobService: blobService,
+    
     /**
      * 
      * @param {*} stream 

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-import { HttpClient, HttpRequest, HttpResponse, HttpErrorResponse, HttpEvent } from '@angular/common/http'
+import { HttpClient, HttpRequest, HttpResponse, HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { AssetService } from './asset.service';
-import { Subscription } from 'rxjs'
+// tslint:disable-next-line:import-blacklist
+import { Subscription } from 'rxjs';
 import { Gif2spriteService } from './shared/services/gif2sprite.service';
 import { Ng5FilesStatus, Ng5FilesSelected, Ng5FilesConfig, Ng5FilesService } from '../app/shared/module/ng5-files';
 
@@ -37,12 +38,13 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
-    this._assetService.loadScript('/assets/js/fabric.js').then(data => {
-      console.log(data); // {loaded: true, status: 'Loaded'}
-    });
-    this._assetService.loadScript('/assets/js/common.js').then(data => {
-      console.log(data); // {loaded: true, status: 'Loaded'}
-    });
+    // For test
+    // this._assetService.loadScript('/assets/js/fabric.js').then(data => {
+    //   console.log(data); // {loaded: true, status: 'Loaded'}
+    // });
+    // this._assetService.loadScript('/assets/js/common.js').then(data => {
+    //   console.log(data); // {loaded: true, status: 'Loaded'}
+    // });
   }
 
   view() {
@@ -61,6 +63,8 @@ export class AppComponent implements OnInit {
       }
     }
   }
-  
+  download() {
+    this.socket._download('message');
+  }
 
 }

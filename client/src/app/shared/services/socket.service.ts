@@ -14,8 +14,6 @@ export class SocketService {
       'reconnectionAttempts': 5
     });
   }
-  
-  
 
   sendMessage(method, data: any = {}) {
     this.socket.emit(method, data);
@@ -45,7 +43,6 @@ export class SocketService {
         onProgress.emit({ guid: metadata.guid, percent: percent });
       }
     });
-    
   }
 
   bind(method, callback) {
