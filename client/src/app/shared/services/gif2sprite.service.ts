@@ -14,8 +14,8 @@ export class Gif2spriteService {
 
     this.socket.bind('HI_RESPONSE', this._hiResponse);
     this.socket.bind('UPLOAD_RESPONSE', this._uploadResponse);
+    this.socket.bind('DOWNLOAD_RESPONSE', this._downloadResponse);
     this.socket.bind('UPLOAD_COUNT', this._uploadCount);
-    
   }
 
   fakeId() {
@@ -35,6 +35,14 @@ export class Gif2spriteService {
     this.socket.sendMessage('COPY', {message: message});
   }
 
+  _download(message) {
+    this.socket.sendMessage('DOWNLOAD', { message: message });
+  }
+
+  _downloadResponse(response) {
+    console.log(response);
+  }
+
 
 
   _hiResponse(response) {
@@ -49,6 +57,7 @@ export class Gif2spriteService {
   }
 
   _uploadResponse(response) {
+    console.log(response);
     $this.onUpload.emit(response);
   }
 
