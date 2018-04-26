@@ -7,6 +7,9 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { AssetService } from './asset.service';
 import { Subscription } from 'rxjs'
+import 'fabric';
+declare const fabric: any;
+
 import { Gif2spriteService } from './shared/services/gif2sprite.service';
 import { Ng5FilesStatus, Ng5FilesSelected, Ng5FilesConfig, Ng5FilesService } from '../app/shared/module/ng5-files';
 
@@ -33,18 +36,18 @@ export class AppComponent implements OnInit {
     selectedFiles: null,
     uploadedFiles: []
   };
-
+  image: any;
+  file:File = null;
+  canvas:any;
 
   ngOnInit() {
 
-    this._assetService.loadScript('/assets/js/fabric.js').then(data => {
-      console.log(data); // {loaded: true, status: 'Loaded'}
-    });
+   
     this._assetService.loadScript('/assets/js/common.js').then(data => {
       console.log(data); // {loaded: true, status: 'Loaded'}
     });
-  }
 
+  }
   view() {
     this.socket._copy('message');
   }

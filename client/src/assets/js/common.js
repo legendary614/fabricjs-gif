@@ -93,11 +93,13 @@
   
   fabric.Sprite.async = true;
   /*****************************************************/
+
+  
    var canvas = this.__canvas = new fabric.Canvas('canvas');
     fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
     fabric.Object.prototype.transparentCorners = false;
 
-    fabric.Sprite.fromURL('/assets/image/final.jpg', createSprite(0,0));
+    fabric.Sprite.fromURL('http://localhost:4200/assets/image/final.jpg', createSprite(0,0));
     
     
         
