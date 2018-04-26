@@ -17,6 +17,11 @@ var helper = require('./helper/helper');
  * Create Socket Server
  */
 
+/**
+ * log server port
+ */
+helper.log.system('server port : ' + config.server.port);
+
 var io = require('socket.io')(config.server.port);
 helper.log.system('socket server started at Port:' + config.server.port);
 
