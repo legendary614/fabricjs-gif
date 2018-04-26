@@ -1,4 +1,5 @@
 var shell = require('shelljs');
+var fs = require('fs');
 var _ = require('underscore');
 
 var responseHelper = require('./response.helper');
@@ -10,7 +11,7 @@ module.exports = {
      * @param {*} commandLine 
      * @param {*} callback 
      */
-    shell(commandLine, callback) {
+    shell(commandLine, dirPath, callback) {
         if (commandLine === undefined || commandLine === null || commandLine === '') {
             responseHelper.onError('error: shell', callback);
             return;
@@ -21,8 +22,21 @@ module.exports = {
                 responseHelper.onError('error: shell', callback);
                 return;
             }
+			fs.readdir(dirPath, (err, files) => {
+				let fileProgress_len = files.length;
+				if(fileProgress_len > 0)
+				{
+		            responseHelper.onSuccess(callback, fileProgress_len);
+				}
+				return;
+				
 
-            responseHelper.onSuccess(callback);
+			});
+			
+			
+			
         });
     }
+    
+    
 }

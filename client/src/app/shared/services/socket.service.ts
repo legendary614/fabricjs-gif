@@ -14,6 +14,8 @@ export class SocketService {
       'reconnectionAttempts': 5
     });
   }
+  
+  
 
   sendMessage(method, data: any = {}) {
     this.socket.emit(method, data);
@@ -35,12 +37,15 @@ export class SocketService {
 
     let sent = 0;
     blobStream.on('data', function (chunk) {
+
+
       sent += chunk.length;
       const percent = Math.ceil((sent / file.size) * 80);
       if (onProgress) {
         onProgress.emit({ guid: metadata.guid, percent: percent });
       }
     });
+    
   }
 
   bind(method, callback) {

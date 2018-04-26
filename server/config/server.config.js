@@ -7,6 +7,8 @@
 module.exports = {
     port:           3041,
     logLevel:       5,
-    uploadPath:     './uploads/',
+    resultPath:     'result/',
+    progressPath:     'progress/',
+    uploadPath:     'uploads/',
     downloadPath:   './downloads/',
 }

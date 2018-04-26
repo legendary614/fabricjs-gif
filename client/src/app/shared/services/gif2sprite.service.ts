@@ -7,12 +7,15 @@ let $this: Gif2spriteService;
 export class Gif2spriteService {
   public onHi = new EventEmitter();
   public onUpload = new EventEmitter();
+  public onCopy = new EventEmitter();
 
   constructor(private socket: SocketService) {
     $this = this;
 
     this.socket.bind('HI_RESPONSE', this._hiResponse);
     this.socket.bind('UPLOAD_RESPONSE', this._uploadResponse);
+    this.socket.bind('UPLOAD_COUNT', this._uploadCount);
+    
   }
 
   fakeId() {
@@ -28,6 +31,12 @@ export class Gif2spriteService {
     this.socket.sendMessage('HI', {message: message});
   }
 
+  _copy(message) {
+    this.socket.sendMessage('COPY', {message: message});
+  }
+
+
+
   _hiResponse(response) {
     $this.onHi.emit(response);
   }
@@ -41,5 +50,9 @@ export class Gif2spriteService {
 
   _uploadResponse(response) {
     $this.onUpload.emit(response);
+  }
+
+  _uploadCount(response) {
+    window.localStorage.setItem('count', response);
   }
 }

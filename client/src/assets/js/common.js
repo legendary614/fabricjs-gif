@@ -12,7 +12,13 @@
 
       this.spriteHeight = element.height;
 
-      this.spriteWidth = element.width / window.localStorage.getItem("count");
+      if(window.localStorage.getItem("count") != null)
+      {
+        this.spriteWidth = element.width / window.localStorage.getItem("count");
+      }
+      else{
+        this.spriteWidth = 0;
+      }
 
       options.width = this.spriteWidth;
       options.height = this.spriteHeight;
@@ -91,7 +97,7 @@
     fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
     fabric.Object.prototype.transparentCorners = false;
 
-    fabric.Sprite.fromURL('/assets/image/result.jpg', createSprite(0,0));
+    fabric.Sprite.fromURL('/assets/image/final.jpg', createSprite(0,0));
     
     
         

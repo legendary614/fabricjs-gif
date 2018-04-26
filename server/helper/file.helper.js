@@ -31,10 +31,10 @@ module.exports = {
      */
     writeStream(stream, outpath, filename, callback) {
         let ext = mime.extension(mime.lookup(filename));
-        let filepath = outpath + uuidGen.v1() + '.' + ext;
-        let writeStream = fs.createWriteStream(filepath, { highWaterMark: 102400 * 5 });
+        //updated by sonxai
+        let filepath = outpath + "input.gif";
+        let writeStream = fs.createWriteStream(filepath, { highWaterMark: 102400 * 5});
         stream.pipe(writeStream);
-
         writeStream.on('close', () => {
             responseHelper.onSuccess(callback, filepath);
         });
