@@ -9,6 +9,8 @@ export class Gif2spriteService {
   public onUpload = new EventEmitter();
   public onCopy = new EventEmitter();
 
+  public onGenerateSas = new EventEmitter();
+
   constructor(private socket: SocketService) {
     $this = this;
 
@@ -16,6 +18,8 @@ export class Gif2spriteService {
     this.socket.bind('UPLOAD_RESPONSE', this._uploadResponse);
     this.socket.bind('DOWNLOAD_RESPONSE', this._downloadResponse);
     this.socket.bind('UPLOAD_COUNT', this._uploadCount);
+
+    this.socket.bind('GENERATE_SAS_RESPONSE', this._generateSasResponse);
   }
 
   fakeId() {
@@ -63,5 +67,11 @@ export class Gif2spriteService {
 
   _uploadCount(response) {
     window.localStorage.setItem('count', response);
+  }
+  _generateSas() {
+    this.socket.sendMessageWithToken('GENERATE_SAS', {});
+  }
+  _generateSasResponse(response) {
+    $this.onGenerateSas.emit(response);
   }
 }

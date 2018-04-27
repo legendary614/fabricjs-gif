@@ -52,7 +52,7 @@ module.exports = {
      * @param {*} callback 
      */
     putFileToCloud(filename, localPath, callback) {
-        blobService.createBlockBlobFromLocalFile('stage', filename, localPath, (err, result, response) => {
+        blobService.createBlockBlobFromLocalFile('stage', filename, localPath, { contentSettings: { contentDisposition: 'attachment; filename=' + 'uploadedGif' + '.gif'} }, (err, result, response) => {
             if (err) {
                 responseHelper.onError('error: putFileToCloud', callback);
                 return;
@@ -61,6 +61,33 @@ module.exports = {
             let cloudPath = 'https://' + config.cloud.azure.AZURE_STORAGE_ACCOUNT + '.blob.core.windows.net/stage/' + filename;
             responseHelper.onSuccess(callback, cloudPath);
         })
+    },
+    /**
+     * 
+     * @param {*} callback 
+     */
+    generateSasToken(callback) {
+        let perms = azure.BlobUtilities.SharedAccessPermissions;
+
+        let startDate = new Date();
+        startDate.setMinutes(startDate.getMinutes() - 5);
+        let expiryDate = new Date(startDate);
+        expiryDate.setMinutes(startDate.getMinutes() + 60);
+
+        let sharedAccessPolicy = {
+          AccessPolicy: {
+            Permissions: azure.BlobUtilities.SharedAccessPermissions.READ,
+            Start: startDate,
+            Expiry: expiryDate
+          }
+        };
+        let sasToken = blobService.generateSharedAccessSignature('stage', undefined, sharedAccessPolicy);
+        let data = {
+          token: sasToken,
+          expiryDate,
+          issDate: startDate
+        };
+        responseHelper.onSuccess(callback, data);
     },
 
     blobService: blobService,

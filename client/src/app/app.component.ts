@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
 
   private fileUploadConfig: Ng5FilesConfig = {
     // acceptExtensions: ['png', 'jpg', 'jpeg', 'JPEG', 'JPG'],
-    acceptExtensions: ['png', 'PNG'],
+    acceptExtensions: ['png', 'PNG', 'gif', 'GIF'],
     maxFilesCount: 5,
     maxFileSize: 5120000,
     totalFilesSize: 10120000
@@ -36,8 +36,19 @@ export class AppComponent implements OnInit {
   file:File = null;
   canvas:any;
 
-  ngOnInit() {
+  public $uns = [];
+  public uploadedAzureFileName = null;
 
+  ngOnInit() {
+    this.$uns.push(this.socket.onGenerateSas.subscribe((message) => {
+      if (this.uploadedAzureFileName != null) {
+        this.downloadFile(this.uploadedAzureFileName + '?' + message.message.token);
+      }
+    }));
+
+    this.$uns.push(this.socket.onUpload.subscribe((message) => {
+      this.uploadedAzureFileName = message.cloudPath;
+    }));
 
   }
   view() {
@@ -50,6 +61,7 @@ export class AppComponent implements OnInit {
     this.props_upload.selectedFiles = Array.from(selectedFiles.files);
     for (let i = 0; i < this.props_upload.selectedFiles.length; i ++) {
       const file = this.props_upload.selectedFiles[i];
+      console.log(file);
       // if (ext === '.jpg' || ext === '.png' || ext === '.jpeg') {
       if (!file.$error) {
         this.socket._upload(file, { guid: this.socket.fakeId() });
@@ -57,7 +69,20 @@ export class AppComponent implements OnInit {
     }
   }
   download() {
-    this.socket._download('message');
+    this.socket._generateSas();
+    // this.socket._download('message');
   }
+
+  downloadFile(src) {
+    const element = document.createElement('a');
+    element.setAttribute('href', src);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
 
 }

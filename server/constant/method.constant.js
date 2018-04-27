@@ -9,4 +9,5 @@ module.exports = {
     upload:                     'UPLOAD',
     download:                   'DOWNLOAD',
     copy:                       'COPY',
+    generateSasToken:           'GENERATE_SAS'
 }

@@ -43,6 +43,16 @@ io.on('connection', function (socket) {
         
     });
 
+    socket.on(constant.method.generateSasToken, function (message) {
+        helper.log.system('received ' + constant.method.generateSasToken + ' message: ');
+        helper.file.generateSasToken(function(err, message) {
+            const result = {success: true, message: message};
+            console.log(result);
+            socket.emit(constant.method.generateSasToken + '_RESPONSE', result);
+            helper.log.system(JSON.stringify(result));
+        });
+    });
+
     //This is sample socket stream communication
     ss(socket).on(constant.method.upload, function (stream, message) {
         helper.file.writeStream(stream, config.server.uploadPath, message.filename, function (err, filepath) {
