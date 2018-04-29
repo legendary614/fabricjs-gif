@@ -110,9 +110,9 @@ export class WorkareaCanvas {
         this.element.tmpCanvasEl = fabric.util.createCanvasElement();
 
         // tslint:disable-next-line:max-line-length
-        fabric.Sprite.fromURL('http://localhost:4500/assets/image/final.jpg', (sprite) => {
+        // fabric.Sprite.fromURL('http://localhost:4500/assets/image/final.jpg', (sprite) => {
         // tslint:disable-next-line:max-line-length
-        // fabric.Sprite.fromURL('https://blurbizstagdiag910.blob.core.windows.net/stage/7124d380-4bdb-11e8-91fe-29acb730ad9e.png', (sprite) => {
+        fabric.Sprite.fromURL('https://blurbizstagdiag910.blob.core.windows.net/stage/7124d380-4bdb-11e8-91fe-29acb730ad9e.png', (sprite) => {
             $this.element.canvas.add(sprite);
             setTimeout(function () {
                 sprite.play();
