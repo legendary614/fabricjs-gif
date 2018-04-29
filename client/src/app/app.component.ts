@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { AssetService } from './asset.service';
 import { Gif2spriteService } from './shared/services/gif2sprite.service';
 import { Ng5FilesStatus, Ng5FilesSelected, Ng5FilesConfig, Ng5FilesService } from '../app/shared/module/ng5-files';
+import { WorkareaCanvas } from './canvas';
 
 @Component({
   selector: 'app-root',
@@ -17,9 +18,15 @@ import { Ng5FilesStatus, Ng5FilesSelected, Ng5FilesConfig, Ng5FilesService } fro
 
 })
 export class AppComponent implements OnInit {
+  private myCanvas: WorkareaCanvas;
+
   title = 'app';
 
-  constructor(private _assetService: AssetService, private socket: Gif2spriteService) { }
+  constructor(private _assetService: AssetService, private socket: Gif2spriteService) {
+    this.socket.onUpload.subscribe((response) => {
+      this.myCanvas.addGifOverlay(response.metadata);
+    });
+  }
 
   private fileUploadConfig: Ng5FilesConfig = {
     // acceptExtensions: ['png', 'jpg', 'jpeg', 'JPEG', 'JPG'],
@@ -33,11 +40,11 @@ export class AppComponent implements OnInit {
     uploadedFiles: []
   };
   image: any;
-  file:File = null;
-  canvas:any;
+  file: File = null;
+  canvas: any;
 
   ngOnInit() {
-
+    this.myCanvas = new WorkareaCanvas(this.socket);
 
   }
   view() {

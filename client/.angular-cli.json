@@ -21,9 +21,10 @@
       "styles": [
         "styles.css",
         "../node_modules/bootstrap/dist/css/bootstrap.min.css"
-
       ],
-      
+      "scripts": [
+        "../src/fabricjs/sprite.class.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

@@ -2,7 +2,15 @@
  * Image Helper
  */
 
+var uuidGen = require('node-uuid');
+var fs = require('fs');
 var _ = require('underscore');
+var path = require('path');
+
+var fileHelper = require('./file.helper');
+var responseHelper = require('./response.helper');
+var config = require('../config/config');
+var shellHelper = require('./shell.helper');
 
 module.exports = {
     /**
@@ -74,5 +82,49 @@ module.exports = {
         }
 
         return rot;
-    }
+    },
+
+    convertGif2Sprite(filepath, callback) {
+        let resultName = path.basename(filepath, path.extname(filepath));
+        let resultPath = config.server.downloadPath + resultName + '.png';
+        let commandLine = 'convert.exe ' + filepath + ' ' + resultPath;
+
+        shellHelper.shell(commandLine, (err) => {
+            if (err) {
+                responseHelper.onError('error: convertGif2Sprite' + err, callback);
+                return;
+            }
+            fs.readdir(config.server.downloadPath, (_err, files) => {
+                if (_err) {
+                    responseHelper.onError('error: convertGif2Sprite' + _err, callback);
+                    return;
+                }
+
+                let convertedFiles = [];
+                _.each(files, (file) => {
+                    if (file.includes(resultName)) {
+                        convertedFiles.push(config.server.downloadPath + file);
+                    }
+                });
+
+                convertedFiles.sort((f1, f2) => {return f1 - f2;});
+
+                commandLine = 'convert.exe +append ';
+                _.each(convertedFiles, (file) => {
+                    commandLine += file + ' ';
+                });
+
+                commandLine += resultPath;
+
+                shellHelper.shell(commandLine, (__err) => {
+                    if (__err) {
+                        responseHelper.onError('error: convertGif2Sprite' + err, callback);
+                        return;
+                    }
+
+                    responseHelper.onSuccess(callback, {spritepath: resultPath, spriteLength: convertedFiles.length, deleteFiles: convertedFiles});
+                });
+            });
+        });
+    },
 }

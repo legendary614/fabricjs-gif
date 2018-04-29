@@ -57,7 +57,6 @@ export class Gif2spriteService {
   }
 
   _uploadResponse(response) {
-    console.log(response);
     $this.onUpload.emit(response);
   }
 

@@ -11,7 +11,7 @@ module.exports = {
      * @param {*} commandLine 
      * @param {*} callback 
      */
-    shell(commandLine, dirPath, callback) {
+    shell(commandLine, callback) {
         if (commandLine === undefined || commandLine === null || commandLine === '') {
             responseHelper.onError('error: shell', callback);
             return;
@@ -19,24 +19,10 @@ module.exports = {
 
         shell.exec(commandLine, (code) => {
             if (code !== 0) {
-                responseHelper.onError('error: shell', callback);
+                responseHelper.onError('error: shell ' + commandLine, callback);
                 return;
             }
-			fs.readdir(dirPath, (err, files) => {
-				let fileProgress_len = files.length;
-				if(fileProgress_len > 0)
-				{
-		            responseHelper.onSuccess(callback, fileProgress_len);
-				}
-				return;
-				
-
-			});
-			
-			
-			
+            responseHelper.onSuccess(callback);
         });
     }
-    
-    
 }
