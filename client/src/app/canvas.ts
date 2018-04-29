@@ -44,6 +44,7 @@ fabric.Sprite = fabric.util.createClass(fabric.Image, {
         tmpCtx.drawImage(this._element, -i * this.spriteWidth, 0);
 
         const dataURL = this.tmpCanvasEl.toDataURL('image/png');
+        console.log(dataURL)
         const tmpImg = fabric.util.createImage();
 
         tmpImg.src = dataURL;
@@ -78,12 +79,10 @@ fabric.Sprite = fabric.util.createClass(fabric.Image, {
     }
 });
 
-fabric.Sprite.fromURL = function (url, callback, imgOptions) {
+fabric.Sprite.fromURL = function (url, callback, options) {
     fabric.util.loadImage(url, function (img) {
-        img.setAttribute('crossorigin', 'Anonymous');
-        img.crossOrigin = 'Anonymous';
-        callback(new fabric.Sprite(img, imgOptions));
-    });
+        callback(new fabric.Sprite(img, options));
+    }, null, options && options.crossOrigin);
 };
 
 fabric.Sprite.async = true;
@@ -113,7 +112,7 @@ export class WorkareaCanvas {
         // tslint:disable-next-line:max-line-length
         // fabric.Sprite.fromURL('http://localhost:4500/assets/image/final.jpg', (sprite) => {
         // tslint:disable-next-line:max-line-length
-        fabric.Sprite.fromURL('https://blurbizstagdiag910.blob.core.windows.net/stage/7124d380-4bdb-11e8-91fe-29acb730ad9e.png?st=2018-04-29T18%3A43%3A55Z&se=2018-04-29T19%3A43%3A55Z&sp=r&sv=2017-07-29&sr=c&sig=4rR4Aa76T3lMahT7PitVzgdgTlcl1DiZlColQySsMDk%3D', (sprite) => {
+        fabric.Sprite.fromURL('https://blurbizstagdiag910.blob.core.windows.net/stage/7124d380-4bdb-11e8-91fe-29acb730ad9e.png', (sprite) => {
             $this.element.canvas.add(sprite);
             setTimeout(function () {
                 sprite.play();
@@ -123,7 +122,7 @@ export class WorkareaCanvas {
                 $this.element.canvas.renderAll();
                 fabric.util.requestAnimFrame(render);
             });
-        });
+        }, {crossOrigin: 'Anonymous'});
     }
 
     addGifOverlay(metadata) {
