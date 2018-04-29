@@ -81,7 +81,7 @@ fabric.Sprite = fabric.util.createClass(fabric.Image, {
 fabric.Sprite.fromURL = function (url, callback, imgOptions) {
     fabric.util.loadImage(url, function (img) {
         img.setAttribute('crossorigin', 'Anonymous');
-        img.crossOrigin = 'anonymous';
+        img.crossOrigin = 'Anonymous';
         callback(new fabric.Sprite(img, imgOptions));
     });
 };
