@@ -87,7 +87,7 @@ module.exports = {
     convertGif2Sprite(filepath, callback) {
         let resultName = path.basename(filepath, path.extname(filepath));
         let resultPath = config.server.downloadPath + resultName + '.png';
-        let commandLine = 'convert.exe ' + filepath + ' ' + resultPath;
+        let commandLine = 'gifsicle.exe -e -i -U -e ' + filepath + '  -o ' + config.server.downloadPath + resultName;
 
         shellHelper.shell(commandLine, (err) => {
             if (err) {
@@ -100,14 +100,14 @@ module.exports = {
                     return;
                 }
 
-                let convertedFiles = [];
+                let convertedFiles = [], index = 0;
                 _.each(files, (file) => {
                     if (file.includes(resultName)) {
+                        // convertedFiles.push(config.server.downloadPath + resultName + '-' + index + '.png');
+                        // index ++;
                         convertedFiles.push(config.server.downloadPath + file);
                     }
                 });
-
-                convertedFiles.sort((f1, f2) => {return f1 - f2;});
 
                 commandLine = 'convert.exe +append ';
                 _.each(convertedFiles, (file) => {

@@ -2,6 +2,7 @@ import 'fabric';
 import { SocketService } from './socket.service';
 import { Gif2spriteService } from './shared/services/gif2sprite.service';
 declare const fabric: any;
+import * as path from 'path';
 
 fabric.Sprite = fabric.util.createClass(fabric.Image, {
     type: 'sprite',
@@ -11,11 +12,18 @@ fabric.Sprite = fabric.util.createClass(fabric.Image, {
     spriteIndex: 0,
 
     initialize: function (element, options) {
+        // console.log(options);
         // tslint:disable-next-line:no-unused-expression
-        options || (options = {});
+        // options || (options = {});
 
-        options.width = this.spriteWidth;
-        options.height = this.spriteHeight;
+        // options.width = this.spriteWidth;
+        // options.height = this.spriteHeight;
+
+        this.spriteWidth = options.width;
+        this.spriteHeight = options.height;
+
+        console.log(this.spriteWidth);
+        console.log(this.spriteHeight);
 
         this.callSuper('initialize', element, options);
 
@@ -44,7 +52,6 @@ fabric.Sprite = fabric.util.createClass(fabric.Image, {
         tmpCtx.drawImage(this._element, -i * this.spriteWidth, 0);
 
         const dataURL = this.tmpCanvasEl.toDataURL('image/png');
-        console.log(dataURL)
         const tmpImg = fabric.util.createImage();
 
         tmpImg.src = dataURL;
@@ -108,11 +115,12 @@ export class WorkareaCanvas {
         });
 
         this.element.tmpCanvasEl = fabric.util.createCanvasElement();
+    }
 
+    addGifOverlay(metadata) {
         // tslint:disable-next-line:max-line-length
-        // fabric.Sprite.fromURL('http://localhost:4500/assets/image/final.jpg', (sprite) => {
-        // tslint:disable-next-line:max-line-length
-        fabric.Sprite.fromURL('https://blurbizstagdiag910.blob.core.windows.net/stage/7124d380-4bdb-11e8-91fe-29acb730ad9e.png', (sprite) => {
+        const gifpath = path.dirname(metadata.cloudPath) + '/' + path.basename(metadata.cloudPath, path.extname(metadata.cloudPath)) + '.png';
+        fabric.Sprite.fromURL(gifpath, (sprite) => {
             $this.element.canvas.add(sprite);
             setTimeout(function () {
                 sprite.play();
@@ -122,10 +130,6 @@ export class WorkareaCanvas {
                 $this.element.canvas.renderAll();
                 fabric.util.requestAnimFrame(render);
             });
-        }, {crossOrigin: 'Anonymous'});
-    }
-
-    addGifOverlay(metadata) {
-        console.log(fabric.Sprite);
+        }, { crossOrigin: 'Anonymous', width: metadata.resolution.width, height: metadata.resolution.height });
     }
 }

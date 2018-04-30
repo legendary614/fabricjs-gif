@@ -8,7 +8,7 @@ export class SocketService {
   public socket;
 
   constructor() {
-    this.socket = io('https://153b51a3.ngrok.io', {
+    this.socket = io('http://localhost:3041', {
       'reconnection': true,
       'reconnectionDelay': 500,
       'reconnectionAttempts': 5
